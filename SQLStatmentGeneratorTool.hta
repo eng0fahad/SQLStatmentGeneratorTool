@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="src/assets/img/Logo.png"
+    />
+    <title>SQL Statement Generator Tool</title>
+      <HTA:APPLICATION ID="oMyApp" 
+        APPLICATIONNAME="Application Executer" 
+        BORDER="no"
+        CAPTION="no"
+        SHOWINTASKBAR="yes"
+        SINGLEINSTANCE="yes"
+        SYSMENU="yes"
+        SCROLL="no"
+        WINDOWSTATE="normal">
+        <script type="text/javascript" language="javascript">
+        function RunFile() {
+        WshShell = new ActiveXObject("WScript.Shell");
+        WshShell.Run("c:/app.exe", 1, false);
+        }
+    </script>
+    <link rel="stylesheet" href="src/css/style.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        /* background-color: #f9f9f9; */
+        background: radial-gradient(circle, rgb(0, 255, 136) 0%, #066cd2 100%);
+        padding: 0px;
+      }
+      header {
+        width: 100%;
+        padding: 20px;
+        background-color: rgb(0, 166, 255);
+        color: white;
+      }
+      h1 {
+        color: #007bff;
+      }
+
+      .main-div {
+        text-align: left;
+        padding: 20px 30px;
+        background-color: rgb(255, 255, 255);
+        max-width: 50%;
+        min-width: 400px;
+        margin: 50px auto;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.11);
+        border-radius: 10px;
+      }
+      .styled-textarea {
+        min-width: 100%;
+        max-width: 600px;
+        height: 150px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        resize: vertical; /* Allows vertical resizing */
+        font-size: 16px;
+        color: #333;
+        background-color: #fff;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+
+      .styled-textarea:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        outline: none; /* Removes default outline */
+      }
+
+      .textarea-label {
+        margin: 0px 0px;
+        font-weight: bold;
+        display: block;
+        color: #555;
+      }
+
+      .btn-div {
+        text-align: center;
+        width: 100%;
+        margin-top: 100px;
+      }
+
+      .send-btn {
+        background-color: rgb(0, 166, 255);
+        padding: 10px 20px;
+        color: white;
+        border: none;
+        border-radius: 5px;
+      }
+      .send-btn:hover {
+        background-color: rgb(0, 128, 196);
+      }
+
+      /* **************** */
+      input[type="file"] {
+        margin-top: 20px;
+
+        position: relative;
+      }
+
+      input[type="file"]::file-selector-button {
+        width: 136px;
+        color: transparent;
+      }
+
+      /* Faked label styles and icon */
+      input[type="file"]::before {
+        position: absolute;
+        pointer-events: none;
+        top: 10px;
+        left: 16px;
+        height: 20px;
+        width: 20px;
+        content: "";
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230964B0'%3E%3Cpath d='M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3h-2zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5-5 5z'/%3E%3C/svg%3E");
+      }
+
+      input[type="file"]::after {
+        position: absolute;
+        pointer-events: none;
+        top: 11px;
+        left: 40px;
+        color: #0964b0;
+        content: "Upload File";
+      }
+
+      /* ------- From Step 1 ------- */
+
+      /* file upload button */
+      input[type="file"]::file-selector-button {
+        border-radius: 4px;
+        padding: 0 16px;
+        height: 40px;
+        cursor: pointer;
+        background-color: white;
+        border: 1px solid rgba(0, 0, 0, 0.16);
+        box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+        margin-right: 16px;
+        transition: background-color 200ms;
+      }
+
+      /* file upload button hover state */
+      input[type="file"]::file-selector-button:hover {
+        background-color: #f3f4f6;
+      }
+
+      /* file upload button active state */
+      input[type="file"]::file-selector-button:active {
+        background-color: #e5e7eb;
+      }
+
+      @media (max-width: 768px) {
+        .main-div {
+          max-width: 90%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <header></header> -->
+
+    <div class="main-div">
+      <div>
+        <label for="fileInput">Upload CSV File:</label>
+        <input type="file" id="fileInput" /><br /><br /><br />
+
+        <h3 for="sqlTemplate">Enter SQL Statement:</h3>
+        <br />
+        <textarea
+          class="styled-textarea"
+          id="sqlTemplate"
+          placeholder="The tool will automatically replace #Col1 with the value in the cloumn1 in the CSV file you can enter any columns that you want to be replaced just enter this instruction #Col with column number &#10;Example: &#10;UPDATE Customers SET ContactName=#Col1 WHERE Country=#Col2;
+          "
+        ></textarea
+        ><br /><br />
+
+        <button id="generateButton" class="send-btn">
+          Generate SQL Statements
+        </button>
+
+        <br /><br />
+        <!-- <button id="downloadButton" style="display: none">
+          Download Modified CSV
+        </button> -->
+      </div>
+
+      <div class="results">
+        <h3>Generated SQL Statements</h3>
+        <br />
+        <textarea id="results" class="styled-textarea" readonly></textarea>
+      </div>
+    </div>
+
+    <script>
+      let csvData = [];
+      let modifiedCsvData = [];
+
+      document
+        .getElementById("fileInput")
+        .addEventListener("change", function () {
+          const file = this.files[0];
+          const reader = new FileReader();
+
+          reader.onload = function (event) {
+            const text = event.target.result;
+            csvData = text.split("\n").map((row) => row.split(","));
+            modifiedCsvData = csvData.map((row) => [...row]); // Clone the original data for modification
+          };
+
+          reader.readAsText(file);
+        });
+
+      document
+        .getElementById("generateButton")
+        .addEventListener("click", function () {
+          const sqlTemplate = document.getElementById("sqlTemplate").value;
+          const resultsArea = document.getElementById("results");
+
+          if (!sqlTemplate || csvData.length === 0) {
+            alert("Please provide a valid SQL template and upload a CSV file.");
+            return;
+          }
+
+          const sqlStatements = csvData.map((row) => {
+            let sqlStatement = sqlTemplate;
+
+            // Replace #ColX with the value from the corresponding column
+            const regex = /#Col(\d+)/g;
+            sqlStatement = sqlStatement.replace(regex, (match, colNum) => {
+              const index = parseInt(colNum) - 1; // Convert to 0-based index
+              return row[index] !== undefined ? row[index] : match; // Return value or original placeholder
+            });
+
+            return sqlStatement;
+          });
+
+          // Add the SQL statements to the first empty column in the modified CSV data
+          modifiedCsvData = modifiedCsvData.map((row, index) => {
+            // Find the first empty column (if any)
+            const firstEmptyColumn =
+              row.findIndex((cell) => cell === "") !== -1
+                ? row.findIndex((cell) => cell === "")
+                : row.length; // If no empty cell, append at the end
+
+            row[firstEmptyColumn] = sqlStatements[index]; // Add SQL statement to the first empty column
+            return row;
+          });
+
+          resultsArea.value = sqlStatements.join("\n");
+          document.getElementById("downloadButton").style.display = "block"; // Show download button
+        });
+
+      document
+        .getElementById("downloadButton")
+        .addEventListener("click", function () {
+          const csvContent = modifiedCsvData
+            .map((row) => row.join(","))
+            .join("\n");
+          const blob = new Blob([csvContent], {
+            type: "text/csv;charset=utf-8;",
+          });
+          const url = URL.createObjectURL(blob);
+
+          const link = document.createElement("a");
+          link.setAttribute("href", url);
+          link.setAttribute("download", "modified.csv");
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        });
+    </script>
+  </body>
+</html>
