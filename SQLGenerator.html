@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="src/assets/img/Logo.png"
+    />
+    <title>SQL Statement Generator Tool</title>
+    <link rel="stylesheet" href="src/css/Style.css" />
+  </head>
+  <body class="gradient-animation">
+    <div class="switch-div dark-left">
+      <a href="SQLGenerator.html">SQLGenerator</a>
+      <a href="index.html">SQLSplitter</a>
+    </div>
+
+    <div class="main-div">
+      <h2>CSV to SQL Generator</h2>
+      <label for="fileInput">Upload CSV File:</label>
+      <input type="file" id="fileInput" /><br /><br /><br />
+
+      <h3 for="sqlTemplate">Enter SQL Statement:</h3>
+      <textarea
+        class="styled-textarea"
+        id="sqlTemplate"
+        placeholder="The tool will automatically replace #Col1 with the value in the cloumn1 in the CSV file you can enter any columns that you want to be replaced just enter this instruction #Col with column number &#10;Example: &#10;UPDATE Customers SET ContactName=#Col1 WHERE Country=#Col2;
+          "
+      ></textarea
+      ><br /><br />
+
+      <button>Generate SQL Statements</button>
+
+      <br /><br />
+      <!-- <button id="downloadButton" style="display: none">
+          Download Modified CSV
+        </button> -->
+
+      <div class="results">
+        <h3>Generated SQL Statements</h3>
+        <textarea id="results" class="styled-textarea" readonly></textarea>
+      </div>
+    </div>
+
+    <script src="src/js/SQLGenerator.js"></script>
+  </body>
+</html>
