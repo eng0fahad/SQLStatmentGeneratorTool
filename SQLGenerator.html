@@ -10,6 +10,8 @@
     />
     <title>SQL Statement Generator Tool</title>
     <link rel="stylesheet" href="src/css/Style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   </head>
   <body class="gradient-animation">
     <div class="switch-div dark-left">
@@ -18,25 +20,25 @@
     </div>
 
     <div class="main-div">
-      <h2>CSV to SQL Generator</h2>
-      <label for="fileInput">Upload CSV File:</label>
-      <input type="file" id="fileInput" /><br /><br /><br />
+      <h2>CSV/Excel to SQL Generator</h2>
+      <label for="fileInput">Upload CSV or Excel File:</label>
+      <input
+        type="file"
+        id="fileInput"
+        accept=".csv,.xlsx,.xls"
+      /><br /><br /><br />
 
       <h3 for="sqlTemplate">Enter SQL Statement:</h3>
       <textarea
         class="styled-textarea"
         id="sqlTemplate"
-        placeholder="The tool will automatically replace #Col1 with the value in the cloumn1 in the CSV file you can enter any columns that you want to be replaced just enter this instruction #Col with column number &#10;Example: &#10;UPDATE Customers SET ContactName=#Col1 WHERE Country=#Col2;
-          "
+        placeholder="The tool will automatically replace #Col1 with the value in the first column of the uploaded file. You can enter any columns that you want to be replaced just enter this instruction #Col followed by the column number.&#10;Example: &#10;UPDATE Customers SET ContactName=#Col1 WHERE Country=#Col2;"
       ></textarea
       ><br /><br />
 
-      <button>Generate SQL Statements</button>
+      <button id="generateButton">Generate SQL Statements</button>
 
       <br /><br />
-      <!-- <button id="downloadButton" style="display: none">
-          Download Modified CSV
-        </button> -->
 
       <div class="results">
         <h3>Generated SQL Statements</h3>
