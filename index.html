@@ -3,49 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="src/assets/img/Logo.png"
-    />
-    <title>SQL Statement Generator Tool</title>
-    <link rel="stylesheet" href="src/css/Style.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <title>Excel to SQL Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link rel="stylesheet" href="src/css/Style.css" />
   </head>
-  <body class="gradient-animation">
-    <div class="switch-div dark-left">
+  <body>
+    <div class="switch-div dark-right">
       <a href="SQLGenerator.html">SQLGenerator</a>
       <a href="index.html">SQLSplitter</a>
     </div>
-
     <div class="main-div">
-      <h2>CSV/Excel to SQL Generator</h2>
-      <label for="fileInput">Upload CSV or Excel File:</label>
+      <h2>Excel to SQL Generator</h2>
+      <label for="excelInput">Upload Excel File:</label>
       <input
         type="file"
-        id="fileInput"
-        accept=".csv,.xlsx,.xls"
+        id="excelInput"
+        accept=".xlsx, .xls"
       /><br /><br /><br />
 
-      <h3 for="sqlTemplate">Enter SQL Statement:</h3>
+      <h3 for="queryInput">Enter SQL Query:</h3>
       <textarea
         class="styled-textarea"
-        id="sqlTemplate"
-        placeholder="The tool will automatically replace #Col1 with the value in the first column of the uploaded file. You can enter any columns that you want to be replaced just enter this instruction #Col followed by the column number.&#10;Example: &#10;UPDATE Customers SET ContactName=#Col1 WHERE Country=#Col2;"
+        id="queryInput"
+        rows="4"
+        placeholder="Example: UPDATE table1 SET name = 'newName' WHERE ID IN (#Col1);"
       ></textarea
       ><br /><br />
 
-      <button id="generateButton">Generate SQL Statements</button>
+      <h3 for="limitInput">Enter Limit:</h3>
+      <input
+        type="number"
+        id="limitInput"
+        class="limit-input"
+        placeholder="Example: 3"
+      /><br />
 
-      <br /><br />
-
-      <div class="results">
-        <h3>Generated SQL Statements</h3>
-        <textarea id="results" class="styled-textarea" readonly></textarea>
-      </div>
+      <button id="generateSQL">Generate SQL Queries</button><br />
+      <button id="downloadSQL" style="display: none">
+        Download SQL Statements as ZIP</button
+      ><br />
+      <h3>Generated SQL Queries:</h3>
+      <div class="output-buttons" id="outputButtons"></div>
     </div>
 
-    <script src="src/js/SQLGenerator.js"></script>
+    <script src="src/js/SQLSplitter.js"></script>
   </body>
 </html>
