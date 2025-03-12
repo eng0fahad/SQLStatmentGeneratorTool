@@ -36,8 +36,7 @@ document
 
     // Array to store SQL statements and IDs
     const sqlStatements = [];
-    const id_no = []; // To store unique IDs for filenames
-
+    
     csvData.forEach((row) => {
       let sqlStatement = sqlTemplate;
 
@@ -50,10 +49,7 @@ document
 
       sqlStatements.push(sqlStatement);
 
-      // Assuming the second column (index 1) is used for IDs
-      if (row[1]) {
-        id_no.push(row[1]);
-      }
+ 
     });
 
     // Display SQL statements in the results textarea
@@ -63,8 +59,7 @@ document
     const zip = new JSZip();
 
     sqlStatements.forEach((statement, index) => {
-      const id = id_no[index] || `file_${index + 1}`; // Fallback to "file_X" if no ID
-      zip.file(`${index}NewInsert_${id}.txt`, statement);
+      zip.file(`${index}NewInsert.txt`, statement);
     });
 
     // Generate the zip file and trigger the download
